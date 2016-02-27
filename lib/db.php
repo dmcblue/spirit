@@ -33,7 +33,7 @@
 			try{
 				$stmt->execute();
 			}catch(PDOException $e){
-				echo $e->getMessage();
+				echo $e;
 			}
 			return $stmt;
 		}

@@ -37,14 +37,14 @@
 	echo 'New Section '.$section->id.$nl;
 	$content = file_get_contents('surahs.txt');
 
-	$surahs = explode("\r\n\r\n", $content);
+	$surahs = explode(PHP_EOL.PHP_EOL, $content);
 
 	$chapter_count = 0;
 	$verse_count = 0;
 	echo 'Surahs'.count($surahs).$nl;
 	//$regex = '/[0-9]{3}.[0-9]{3}/';
 	foreach($surahs as $index => $surah){
-		$lines = explode("\r\n", $surah);
+		$lines = explode(PHP_EOL, $surah);
 		
 		foreach($lines as $jindex => $line){
 			if($jindex == 0){

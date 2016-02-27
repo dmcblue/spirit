@@ -27,7 +27,7 @@
 		echo $p."\n";
 		$c = new ChapterModel();
 		
-		$lines = explode("\r\n", $chapter);
+		$lines = explode(PHP_EOL, $chapter);
 		
 		$top = explode('. ', $lines[0]);
 		$c->name = $top[0];

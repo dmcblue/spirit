@@ -67,7 +67,7 @@
 	foreach($sections as $i => $section){
 		$content = file_get_contents('part'.($i + 1).'.txt');
 
-		$chapters = explode("\r\n\r\n", $content);
+		$chapters = explode(PHP_EOL.PHP_EOL, $content);
 
 		//echo count($chapters);
 

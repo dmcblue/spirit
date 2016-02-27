@@ -130,7 +130,7 @@
 			$params = array();
 			$conditions = array();
 			foreach($search as $field => $value){
-				$param = DB::param(':p'.$count, '%'.$value.'%', Type::STR);
+				$param = DB::param(':p'.$count++, '%'.$value.'%', Type::STR);
 				$conditions[] = ' '.DB::quoteName($field).' LIKE '.$param->name.' ';
 				$params[] = $param;
 			}

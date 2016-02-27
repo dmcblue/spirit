@@ -33,7 +33,8 @@
 			try{
 				$stmt->execute();
 			}catch(PDOException $e){
-				echo $e;
+				echo $e."\n";
+				echo $query;
 			}
 			return $stmt;
 		}

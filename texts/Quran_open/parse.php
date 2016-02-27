@@ -4,10 +4,22 @@
 	$nl = "\n";
 	$tb = "\t";
 	
-	$source_id = 6;
-	
-	$source = new SourceModel(array('id' => $source_id), true);
-	//echo $source->id;die;
+	$source = new SourceModel();
+	$source->search(array('name' => 'The Holy Quran', 'version' => 'Progressive Muslims Organization'));
+	if(empty($source->id)){
+		$source = 
+			new SourceModel(
+				array(
+					'name' => 'The Holy Quran', 
+					'description' => "&ldquo;During the seventh century A.D. a man by the name of 'Mohammed,' who was from the lineage of Abraham, was given the overwhelming task of being God''s messenger to deliver the words of the Almighty to mankind.\n<br/><br/>\nThe message that was given to this prophet represented a culmination of all previous teachings/laws, as well as a recording of the most accurate human history in relation to God.&rdquo;", 
+					'version' => 'Progressive Muslims Organization', 
+					'display' => '{"page":{"section":false,"chapter":true,"verse":false}}', 
+					'link' => 'http://www.free-minds.org/quran/'
+				)
+			);
+		$source->save();
+	}
+	$source->loadChildren(true);
 	$source->load();
 	//die;
 	foreach($source->sections as $section){
@@ -18,7 +30,7 @@
 	echo 'Delete old info'.$nl;
 	//die;
 	$section = new SectionModel();
-	$section->sid = $source_id;
+	$section->sid = $source->id;
 	$section->name = 'Quran';
 	$section->priority = 0;
 	$section->save();

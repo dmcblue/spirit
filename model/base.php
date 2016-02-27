@@ -47,13 +47,15 @@
 			;
 			$params = array(DB::param(':id', $this->id, Type::INT));
 			$props = DB::query($query, $params);
-			foreach($this->__props as $property){
-				$this->addProperty(
-					$props[0], 
-					$property['name'], 
-					$property['type'], 
-					array_key_exists('default', $property) ? $property['default'] : null
-				);
+			if(count($props)){
+				foreach($this->__props as $property){
+					$this->addProperty(
+						$props[0], 
+						$property['name'], 
+						$property['type'], 
+						array_key_exists('default', $property) ? $property['default'] : null
+					);
+				}
 			}
 			return $this;
 		}
@@ -115,5 +117,36 @@
 			;
 			//echo $query."\n";
 			DB::update($query, $params);
+		}
+		
+		public function search($search){
+			$query =
+				"SELECT ".implode(' ,', array_map('DB::quoteName',array_map(function($var){return $var['name'];}, $this->__props)))." 
+				FROM ".DB::quoteName($this->__table)." 
+				WHERE "	//DB::quoteName('id')." = :id "
+			;
+			
+			$count = 0;
+			$params = array();
+			$conditions = array();
+			foreach($search as $field => $value){
+				$param = DB::param(':p'.$count, '%'.$value.'%', Type::STR);
+				$conditions[] = ' '.DB::quoteName($field).' LIKE '.$param->name.' ';
+				$params[] = $param;
+			}
+			$query .= implode(' AND ', $conditions);
+			
+			$props = DB::query($query, $params);
+			if(count($props)){
+				foreach($this->__props as $property){
+					$this->addProperty(
+						$props[0], 
+						$property['name'], 
+						$property['type'], 
+						array_key_exists('default', $property) ? $property['default'] : null
+					);
+				}
+			}
+			return $this;
 		}
 	}

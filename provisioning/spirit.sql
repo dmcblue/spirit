@@ -6,6 +6,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+
+DROP TABLE IF EXISTS `author`, `chapter`, `section`, `source`, `verse`;
+
+
 CREATE TABLE IF NOT EXISTS `author` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
@@ -55,10 +59,6 @@ CREATE TABLE IF NOT EXISTS `verse` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 
-INSERT INTO `source` (`name`, `description`, `version`, `display`, `link`) VALUES
-('The Hidden Words', '&ldquo;A work consisting of short passages revealed by Bahá’u’lláh in Persian and Arabic in 1857/58 during His exile in Baghdad, translated by Shoghi Effendi.&rdquo;<br/><br/>Copyright © Bahá''í International Community', 'Official Translation', '{"page":{"section":true,"chapter":false,"verse":false}}', 'http://www.bahai.org/library/authoritative-texts/bahaullah/hidden-words/'),
-('The Holy Quran', '&ldquo;During the seventh century A.D. a man by the name of ''Mohammed,'' who was from the lineage of Abraham, was given the overwhelming task of being God''s messenger to deliver the words of the Almighty to mankind.\n<br/><br/>\nThe message that was given to this prophet represented a culmination of all previous teachings/laws, as well as a recording of the most accurate human history in relation to God.&rdquo;', 'Progressive Muslims Organization', '{"page":{"section":false,"chapter":true,"verse":false}}', 'http://www.free-minds.org/quran/'),
-('Bhagavad Gita', 'Arnold', '', '{"page":{"section":false,"chapter":true,"verse":false}}', 'https://en.wikisource.org/wiki/The_Bhagavad_Gita_%28Arnold_translation%29');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

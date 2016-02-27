@@ -9,11 +9,12 @@
 		
 		static public function connect(){
 			if(is_null(self::$connection)){
+				GLOBAL $CONFIG;
 				self::$connection =
 					new PDO(
-					'mysql:host=localhost;dbname=spirit;charset=utf8',
-					'root',
-					'', 
+					"mysql:host={$CONFIG->db_host};dbname={$CONFIG->db_name};charset=utf8",
+					$CONFIG->db_user,
+					$CONFIG->db_pass,
 					array(
 						PDO::ATTR_EMULATE_PREPARES => false,
 						PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION

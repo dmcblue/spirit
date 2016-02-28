@@ -3,6 +3,7 @@
 	$lib = 'lib';
 	$base = realpath(dirname(__FILE__));
 	require_once($base.DS.$lib.DS.'Config.php');
+	require_once($base.DS.$lib.DS.'tools.php');
 	require_once($base.DS.$lib.DS.'db.php');
 	require_once($base.DS.$lib.DS.'type.php');
 	

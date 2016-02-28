@@ -51,10 +51,7 @@
 	if($page == 'quote'){$title = '';}
 	
 	$menu = array(array('label' => 'Home', 'link' => 'index.php'));
-	
-	$url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-	$escaped_url = explode('index.php?', htmlspecialchars( $url, ENT_QUOTES, 'UTF-8' ))[0];
-	
+		
 	$standalone = array('embed');
 	if(!in_array($page, $standalone)):
 ?><!DOCTYPE html><html>
@@ -64,10 +61,11 @@
 		<title><?php echo $CONFIG->site_name; ?></title>
 		<meta property="og:title" content="<?php echo $CONFIG->site_name; ?>" />
 		<meta property="og:type" content="website" />
-		<meta property="og:url" content="<?php echo $escaped_url; ?>" />
+		<meta property="og:url" content="<?php echo Tools::thisAddress(true, false); ?>" />
 		<meta property="og:description" content="A site for sharing uplifting quotes." />
 		<meta property="og:site_name" content="<?php echo $CONFIG->site_name; ?>" />
 		<meta property="og:locale" content="en_GB" />
+		<meta property="og:image" content="<?php echo Tools::thisAddress(true, false); ?>css/images/opengraph.jpg" />
 		
 		<link href="css/main.css" rel="stylesheet"></link>
 		<link href="css/jquery-ui.min.css" rel="stylesheet"></link>

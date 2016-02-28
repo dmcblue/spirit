@@ -9,9 +9,6 @@
 		
 	}
 	
-	$url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-	$escaped_url = htmlspecialchars( $url, ENT_QUOTES, 'UTF-8' );
-	
 	require('build_quote.php');
 ?><!DOCTYPE html><html class="embed">
 	<head>
@@ -20,10 +17,11 @@
 		<title><?php echo $CONFIG->site_name.': '.$source->name; ?></title>
 		<meta property="og:title" content="<?php echo $source->name; ?>" />
 		<meta property="og:type" content="books.book" />
-		<meta property="og:url" content="<?php echo $escaped_url; ?>" />
+		<meta property="og:url" content="<?php echo Tools::thisAddress(true, true); ?>" />
 		<meta property="og:description" content="<?php echo $text[0]; ?>" />
 		<meta property="og:site_name" content="<?php echo $CONFIG->site_name; ?>" />
 		<meta property="og:locale" content="en_GB" />
+		<meta property="og:image" content="<?php echo Tools::thisAddress(true, false); ?>css/images/opengraph.jpg" />
 		
 		<link href="css/main.css" rel="stylesheet"></link>
 		<link href='https://fonts.googleapis.com/css?family=EB+Garamond&subset=latin,latin-ext' rel='stylesheet' type='text/css' /></link>

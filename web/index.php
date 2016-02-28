@@ -1,7 +1,7 @@
 <?php
 	define('ELLIPSE', '. . .');
 	define('SPIRIT',1);
-	define('NAME', 'spirit.com');
+	
 	require_once('../load.php');
 	
 	$get = $_GET;
@@ -52,12 +52,23 @@
 	
 	$menu = array(array('label' => 'Home', 'link' => 'index.php'));
 	
+	$url =  "//{$_SERVER['HTTP_HOST']}";
+	$escaped_url = htmlspecialchars( $url, ENT_QUOTES, 'UTF-8' );
+	
 	$standalone = array('embed');
 	if(!in_array($page, $standalone)):
 ?><!DOCTYPE html><html>
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title><?php echo $CONFIG->site_name; ?></title>
+		<meta property="og:title" content="<?php echo $CONFIG->site_name; ?>" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="<?php echo $escaped_url; ?>" />
+		<meta property="og:description" content="A site for sharing uplifting quotes." />
+		<meta property="og:site_name" content="<?php echo $CONFIG->site_name; ?>" />
+		<meta property="og:locale" content="en_GB" />
+		
 		<link href="css/main.css" rel="stylesheet"></link>
 		<link href="css/jquery-ui.min.css" rel="stylesheet"></link>
 		<link href='https://fonts.googleapis.com/css?family=EB+Garamond&subset=latin,latin-ext' rel='stylesheet' type='text/css'>

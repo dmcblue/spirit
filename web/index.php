@@ -66,6 +66,9 @@
 		<meta property="og:site_name" content="<?php echo $CONFIG->site_name; ?>" />
 		<meta property="og:locale" content="en_GB" />
 		<meta property="og:image" content="<?php echo Tools::thisAddress(true, false); ?>css/images/opengraph.jpg" />
+			<meta property="og:image:type" content="image/jpeg" />
+			<meta property="og:image:width" content="365" />
+			<meta property="og:image:height" content="480" />
 		
 		<link href="css/main.css" rel="stylesheet"></link>
 		<link href="css/jquery-ui.min.css" rel="stylesheet"></link>
@@ -73,9 +76,9 @@
 		<style>
 			
 		</style>
-		<script src="js/jquery-2.1.1.min.js"></script>
-		<script src="js/jquery-ui.min.js"></script>
-		<script src="js/spirit.js"></script>
+		<script src="js/jquery-2.1.1.min.js" type="text/javascript"></script>
+		<script src="js/jquery-ui.min.js" type="text/javascript"></script>
+		<script src="//platform.tumblr.com/v1/share.js" type="text/javascript"></script>
 		<script>
 			
 		</script>
@@ -101,22 +104,11 @@
 		<input id="source_id" value="<?php echo $source->id; ?>" type="hidden" />
 		<input id="section_id" value="<?php echo $section_id; ?>" type="hidden" />
 		<input id="chapter_id" value="<?php echo $chapter_id; ?>" type="hidden" />
+		<input id="menu_info" value="<?php echo htmlspecialchars(json_encode($menu)); ?>" type="hidden" />
+		<script src="js/spirit.js" type="text/javascript"></script>
 		<script>
 			jQuery(document).ready(function(){
-				var menus = JSON.parse('<?php echo json_encode($menu); ?>');
-				var menu = jQuery('#menu');
-				for(var i = 0, ilen = menus.length; i < ilen; i++){
-					var item = menus[i];
-					if(i !== 0){
-						menu.append(' &gt; ');
-					}
-					menu.append(
-						jQuery('<a>')
-							.attr('href', item.link)
-							.text(item.label)
-							.addClass('light_color')
-					);
-				}
+				
 			});
 		</script>
 	</body>

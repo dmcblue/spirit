@@ -22,6 +22,9 @@
 		<meta property="og:site_name" content="<?php echo $CONFIG->site_name; ?>" />
 		<meta property="og:locale" content="en_GB" />
 		<meta property="og:image" content="<?php echo Tools::thisAddress(true, false); ?>css/images/opengraph.jpg" />
+			<meta property="og:image:type" content="image/jpeg" />
+			<meta property="og:image:width" content="365" />
+			<meta property="og:image:height" content="480" />
 		
 		<link href="css/main.css" rel="stylesheet"></link>
 		<link href='https://fonts.googleapis.com/css?family=EB+Garamond&subset=latin,latin-ext' rel='stylesheet' type='text/css' /></link>

@@ -52,7 +52,7 @@
 				$chapter = new ChapterModel();
 				$chapter->name = trim($line);
 				$chapter->sid = $section->id;
-				$chapter->priority = $chapter_count++;
+				$chapter->priority = 1 + $chapter_count++;
 				$chapter->save();
 				//*/
 				$verse_count = 0;

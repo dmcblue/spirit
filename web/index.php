@@ -102,8 +102,11 @@
 		
 		<!-- End content -->
 		<input id="source_id" value="<?php echo $source->id; ?>" type="hidden" />
+		<input id="source_name" value="<?php echo $source->name; ?>" type="hidden" />
 		<input id="section_id" value="<?php echo $section_id; ?>" type="hidden" />
+		<input id="section_name" value="<?php echo isset($section) ? $section->name : ''; ?>" type="hidden" />
 		<input id="chapter_id" value="<?php echo $chapter_id; ?>" type="hidden" />
+		<input id="display" value="<?php echo htmlspecialchars(json_encode($source->display['page'])); ?>" type="hidden" />
 		<input id="menu_info" value="<?php echo htmlspecialchars(json_encode($menu)); ?>" type="hidden" />
 		<script src="js/spirit.js" type="text/javascript"></script>
 		<script>

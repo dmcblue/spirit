@@ -8,6 +8,15 @@ var spirit = spirit || (function(){
 	var chapter = 0;
 	var chapters = [];
 	var verses = [];
+	var texts = {};
+	var citation = 
+		{
+			source : null,
+			section : null,
+			chapters : [],
+			verses : {}
+		};
+	var display = null;
 	
 	var query =
 		function(page){
@@ -30,6 +39,66 @@ var spirit = spirit || (function(){
 			var url = window.location.href.replace('http:','').replace('https:','').replace('index.php','').split('?')[0];
 			return '<script type="text/javascript" src="'+url+'js/spirit.embed.js" data-quote="'+ btoa(query('embed'))+'"></script>';
 		};
+	var makeText =
+		function(){
+			var quote = [];
+			for(var i = 0, ilen = verses.length; i < ilen; i++){
+				var needsEllipse = !(i === 0 || ((verses[i] - verses[i - 1]) < 2));
+				if(needsEllipse){
+					quote.push('...');
+				}
+				quote.push(texts[verses[i]]);
+			}
+			return quote.join('\n');
+		};
+	var arrayToConseqString =
+		function(arr, inter, jump){
+			inter = inter || '-';
+			jump = jump || ', ';
+			var str = arr[0];
+			var last = parseInt(arr[0]);
+			var conseq = false;
+			for(var i = 1, ilen = arr.length; i < ilen; i++){
+				var item = parseInt(arr[i]);
+				if(item === last + 1){
+					conseq = true;
+				}else{
+					if(conseq){
+						str += inter + last + jump + item;
+					}
+					conseq = false;
+				}
+				last = item;
+			}
+			if(conseq){
+				str += inter + last;
+			}
+			return str;
+		};
+	var makeCitation =
+		function(){
+			console.log(display);
+			var cite =
+				citation.source
+				+ ' | ';
+			if(display.section){
+				cite += citation.section === null ? '' : citation.section + ': ';
+			}
+			
+			if(!display.chapter){
+				cite += arrayToConseqString(citation.chapters) + ' ';
+			}else{
+				cite += citation.chapters[0] + ': ';
+				
+				var items = [];
+				for(var i = 0, ilen = verses.length; i < ilen; i++){
+					items.push(citation.verses[verses[i]]);
+				}
+				
+				cite += arrayToConseqString(items);
+			}
+			return cite;
+		};
 	var inArray =
 		function(val, arr, exact){
 			exact = exact || false;
@@ -39,6 +108,19 @@ var spirit = spirit || (function(){
 				}
 			}
 			return -1;
+		};
+	var clickFocus =
+		//http://stackoverflow.com/a/5797700
+		function(){
+			var $this = jQuery(this);
+			$this.select();
+
+			// Work around Chrome's little problem
+			$this.mouseup(function() {
+				// Prevent further mouseup intervention
+				$this.unbind("mouseup");
+				return false;
+			});
 		};
 	return {
 		CLASS_SELECTED : CLASS_SELECTED,
@@ -59,18 +141,16 @@ var spirit = spirit || (function(){
 									jQuery('<input>')
 										.attr('type','text')
 										.val(embed())
-										//http://stackoverflow.com/a/5797700
-										.focus(function() {
-											var $this = jQuery(this);
-											$this.select();
-
-											// Work around Chrome's little problem
-											$this.mouseup(function() {
-												// Prevent further mouseup intervention
-												$this.unbind("mouseup");
-												return false;
-											});
-										})
+										.focus(clickFocus)
+								)
+								.append(
+									jQuery('<label>').text('Text:')
+								)
+								.append(
+									jQuery('<textarea>')
+										.attr('type','text')
+										.val(makeText() + '\n - ' + makeCitation())
+										.focus(clickFocus)
 								)
 								.append(
 									jQuery('<label>').text('Link:')
@@ -79,18 +159,7 @@ var spirit = spirit || (function(){
 									jQuery('<input>')
 										.attr('type','text')
 										.val(link('quote', true))
-										//http://stackoverflow.com/a/5797700
-										.focus(function() {
-											var $this = jQuery(this);
-											$this.select();
-
-											// Work around Chrome's little problem
-											$this.mouseup(function() {
-												// Prevent further mouseup intervention
-												$this.unbind("mouseup");
-												return false;
-											});
-										})
+										.focus(clickFocus)
 								)
 							)
 					);
@@ -121,12 +190,18 @@ var spirit = spirit || (function(){
 					var index = inArray(chapter, chapters);
 					if(index !== -1){
 						chapters.splice(index, 1);
+						var jndex = inArray(chapter, citation.chapters);
+						if(jndex !== -1){
+							citation.chapters.splice(jndex, 1);
+						}
 					}
 					var index = inArray(id, verses);
 					if(index !== -1){
 						verses.splice(index, 1);
+						texts[id] = null;
+						citation.verses[id] = null;
 					}
-					console.log(jQuery('.'+CLASS_SELECTED));
+					//console.log(jQuery('.'+CLASS_SELECTED));
 					if(!jQuery('.'+CLASS_SELECTED).length){
 						jQuery('#toolbox').animate({
 							width: 'toggle'
@@ -139,8 +214,11 @@ var spirit = spirit || (function(){
 					console.log('index', index, chapter, chapters);
 					if(index < 0){
 						chapters.push(parseInt(chapter));
+						citation.chapters.push(jthis.attr('data-citation-chapter'));
 					}
 					verses.push(parseInt(id));
+					texts[id] = jthis.find('.verse_text').text();
+					citation.verses[id] = jthis.attr('data-citation-verse');
 
 					if(jQuery('.'+CLASS_SELECTED).length === 1){
 						jQuery('#toolbox').animate({
@@ -152,6 +230,7 @@ var spirit = spirit || (function(){
 				chapters.sort();
 				verses.sort();
 				console.log(source, section, chapters, chapter, verses);
+				console.log(makeCitation(), citation);
 				var query = link('quote');
 
 				console.log(link('quote'));
@@ -181,10 +260,14 @@ var spirit = spirit || (function(){
 				if(init){return;}
 				init = true;
 				source = parseInt(jQuery('#source_id').val());
+				citation.source = jQuery('#source_name').val();
 				section = parseInt(jQuery('#section_id').val());
+				citation.section = jQuery('#section_name').val();
+				if(citation.section === ''){citation.section = null;}
 				chapter = parseInt(jQuery('#chapter_id').val());
 				jQuery('.select').find('.verse').click(this.clickVerse);
 				jQuery('#embed').click(this.clickEmbed);
+				display = JSON.parse(decodeURIComponent(jQuery('#display').val()));
 				this.initMenu();
 			}
 	};

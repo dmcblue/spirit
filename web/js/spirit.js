@@ -184,19 +184,45 @@ var spirit = spirit || (function(){
 										.focus(clickFocus)
 								)
 								.append(
-									jQuery('<label>').text('Facebook:')
-								)
-								.append(
-									//https://developers.facebook.com/docs/sharing/web
-									jQuery('<span>')
-										.text('Facebook')
-										.click(function(){
-											FB.ui({
-												method: 'share',
-												href: link('embed', true),
-												caption : makeText(' ', true) + ' - ' + makeCitation()
-											}, function(response){});
-										})
+									jQuery('<div>')
+										.append(
+											//https://developers.facebook.com/docs/sharing/web
+											jQuery('<span>')
+												.addClass('social')
+												.addClass('facebook')
+												.click(function(){
+													FB.ui({
+														method: 'share',
+														href: link('embed', true),
+														caption : makeText(' ', true) + ' - ' + makeCitation()
+													}, function(response){});
+												})
+										)
+										.append(
+											//https://developers.facebook.com/docs/sharing/web
+											jQuery('<span>')
+												.addClass('social')
+												.addClass('tumblr')
+												.click(function(){
+													window.open(
+														"//www.tumblr.com/share/quote?posttype=text&content=" 
+															//*
+															+ encodeURIComponent(
+																makeText() + '\n - ' 
+																+ makeCitation()
+															) 
+															+ '&caption=' + encodeURIComponent(
+																makeCitation()
+															) 
+															//*/
+															//+ "&url=" 
+															//+ encodeURIComponent(link('embed', true))
+															,
+														"",
+														"width=575, height=268"
+													);
+												})
+										)
 								)
 							)
 					);

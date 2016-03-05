@@ -309,6 +309,26 @@ table, .quote{
 .source_description_description{
 	
 }
+.social{
+	display:inline-block;
+	width:3rem;
+	height:3rem;
+	background-size:3rem 3rem;
+	border-radius:0.1rem;
+	
+	margin-right:1rem;
+	
+	cursor:pointer;
+}
+.social:last-child{
+	margin-right:0;
+}
+.social.facebook{
+	background-image:url('images/socialMedia/FB-f-Logo__blue_512.png');
+}
+.social.tumblr{
+	background-image:url('images/socialMedia/tumblr_logo_blue-white-512.png');
+}
 /* jQuery UI */
 body .ui-dialog{
 	background:#B5C4CF;

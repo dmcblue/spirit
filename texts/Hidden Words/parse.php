@@ -78,6 +78,6 @@
 		//}
 
 		foreach($chapters as $index => $chapter){
-			chapter($chapter, $section->id, $index);
+			chapter($chapter, $section->id, $index + $i);
 		}
 	}

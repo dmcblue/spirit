@@ -3,12 +3,21 @@ var spirit = spirit || (function(){
 	
 	var init = false;
 	
-	var source = 0;
-	var section = 0;
-	var chapter = 0;
-	var chapters = [];
-	var verses = [];
-	var texts = {};
+	//var source = 0;
+	//var section = 0;
+	//var chapter = 0;
+	//var chapters = [];
+	//var verses = [];
+	//var texts = {};
+	var quote = 
+		{
+			source : 0,
+			section : 0,
+			chapter : 0,
+			chapters : [],
+			verses : [],
+			texts : {}
+		};
 	var citation = 
 		{
 			source : null,
@@ -21,11 +30,11 @@ var spirit = spirit || (function(){
 	var query =
 		function(page){
 			return 'page=' + page							
-				+ '&source=' + source
-				+ '&section=' + section
-				+ '&chapter=' + chapter
-				+ '&chapters=' + chapters.join(',')
-				+ '&verses=' + verses.join(',')
+				+ '&source=' + quote.source
+				+ '&section=' + quote.section
+				+ '&chapter=' + quote.chapter
+				+ '&chapters=' + quote.chapters.join(',')
+				+ '&verses=' + quote.verses.join(',')
 			;
 		};
 	var link =
@@ -41,15 +50,15 @@ var spirit = spirit || (function(){
 		};
 	var makeText =
 		function(){
-			var quote = [];
-			for(var i = 0, ilen = verses.length; i < ilen; i++){
-				var needsEllipse = !(i === 0 || ((verses[i] - verses[i - 1]) < 2));
+			var quotetext = [];
+			for(var i = 0, ilen = quote.verses.length; i < ilen; i++){
+				var needsEllipse = !(i === 0 || ((quote.verses[i] - quote.verses[i - 1]) < 2));
 				if(needsEllipse){
-					quote.push('...');
+					quotetext.push('...');
 				}
-				quote.push(texts[verses[i]]);
+				quotetext.push(quote.texts[quote.verses[i]]);
 			}
-			return quote.join('\n');
+			return quotetext.join('\n');
 		};
 	var arrayToConseqString =
 		function(arr, inter, jump){
@@ -77,7 +86,6 @@ var spirit = spirit || (function(){
 		};
 	var makeCitation =
 		function(){
-			console.log(display);
 			var cite =
 				citation.source
 				+ ' | ';
@@ -91,8 +99,8 @@ var spirit = spirit || (function(){
 				cite += citation.chapters[0] + ': ';
 				
 				var items = [];
-				for(var i = 0, ilen = verses.length; i < ilen; i++){
-					items.push(citation.verses[verses[i]]);
+				for(var i = 0, ilen = quote.verses.length; i < ilen; i++){
+					items.push(citation.verses[quote.verses[i]]);
 				}
 				
 				cite += arrayToConseqString(items);
@@ -187,18 +195,18 @@ var spirit = spirit || (function(){
 				var chapter = jthis.attr('data-chapter');
 				if(jthis.hasClass(CLASS_SELECTED)){
 					jthis.removeClass(CLASS_SELECTED);
-					var index = inArray(chapter, chapters);
+					var index = inArray(chapter, quote.chapters);
 					if(index !== -1){
-						chapters.splice(index, 1);
+						quote.chapters.splice(index, 1);
 						var jndex = inArray(chapter, citation.chapters);
 						if(jndex !== -1){
 							citation.chapters.splice(jndex, 1);
 						}
 					}
-					var index = inArray(id, verses);
+					var index = inArray(id, quote.verses);
 					if(index !== -1){
-						verses.splice(index, 1);
-						texts[id] = null;
+						quote.verses.splice(index, 1);
+						quote.texts[id] = null;
 						citation.verses[id] = null;
 					}
 					//console.log(jQuery('.'+CLASS_SELECTED));
@@ -210,14 +218,14 @@ var spirit = spirit || (function(){
 
 				}else{
 					jthis.addClass(CLASS_SELECTED);
-					var index = inArray(chapter, chapters);
-					console.log('index', index, chapter, chapters);
+					var index = inArray(chapter, quote.chapters);
+					//console.log('index', index, chapter, quote.chapters);
 					if(index < 0){
-						chapters.push(parseInt(chapter));
+						quote.chapters.push(parseInt(chapter));
 						citation.chapters.push(jthis.attr('data-citation-chapter'));
 					}
-					verses.push(parseInt(id));
-					texts[id] = jthis.find('.verse_text').text();
+					quote.verses.push(parseInt(id));
+					quote.texts[id] = jthis.find('.verse_text').text();
 					citation.verses[id] = jthis.attr('data-citation-verse');
 
 					if(jQuery('.'+CLASS_SELECTED).length === 1){
@@ -227,9 +235,9 @@ var spirit = spirit || (function(){
 					}
 				}
 
-				chapters.sort();
-				verses.sort();
-				console.log(source, section, chapters, chapter, verses);
+				quote.chapters.sort();
+				quote.verses.sort();
+				console.log(quote);
 				console.log(makeCitation(), citation);
 				var query = link('quote');
 
@@ -259,12 +267,12 @@ var spirit = spirit || (function(){
 			function(){
 				if(init){return;}
 				init = true;
-				source = parseInt(jQuery('#source_id').val());
+				quote.source = parseInt(jQuery('#source_id').val());
 				citation.source = jQuery('#source_name').val();
-				section = parseInt(jQuery('#section_id').val());
+				quote.section = parseInt(jQuery('#section_id').val());
 				citation.section = jQuery('#section_name').val();
 				if(citation.section === ''){citation.section = null;}
-				chapter = parseInt(jQuery('#chapter_id').val());
+				quote.chapter = parseInt(jQuery('#chapter_id').val());
 				jQuery('.select').find('.verse').click(this.clickVerse);
 				jQuery('#embed').click(this.clickEmbed);
 				display = JSON.parse(decodeURIComponent(jQuery('#display').val()));

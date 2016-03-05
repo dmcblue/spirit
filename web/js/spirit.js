@@ -141,6 +141,22 @@ var spirit = spirit || (function(){
 				return false;
 			});
 		};
+		var makeTumblrLink =
+			function(url, text, citation){
+				var params = [];
+				params.push({name : 'shareSource', value : 'legacy'});
+				params.push({name : 'posttype', value : 'quote'});
+				params.push({name : 'url', value : url});
+				params.push({name : 'content', value : text});
+				params.push({name : 'caption', value : citation});
+				var nparams = [];
+				for(var i = 0, ilen = params.length; i < ilen; i++){
+					var param = params[i];
+					nparams.push(param.name + '=' + encodeURIComponent(param.value));
+				}
+				
+				return 'https://www.tumblr.com/widgets/share/tool?' + nparams.join('&');
+			};
 	return {
 		CLASS_SELECTED : CLASS_SELECTED,
 		
@@ -205,19 +221,11 @@ var spirit = spirit || (function(){
 												.addClass('tumblr')
 												.click(function(){
 													window.open(
-														"//www.tumblr.com/share/quote?posttype=text&content=" 
-															//*
-															+ encodeURIComponent(
-																makeText() + '\n - ' 
-																+ makeCitation()
-															) 
-															+ '&caption=' + encodeURIComponent(
-																makeCitation()
-															) 
-															//*/
-															//+ "&url=" 
-															//+ encodeURIComponent(link('embed', true))
-															,
+														makeTumblrLink(
+															link('embed', true), 
+															makeText(' ', true), 
+															makeCitation()
+														),
 														"",
 														"width=575, height=268"
 													);

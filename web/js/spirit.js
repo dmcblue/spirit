@@ -218,7 +218,7 @@ var spirit = spirit || (function(){
 													window.open(
 														makeTumblrLink(
 															link('embed', true), 
-															makeText(), 
+															makeText('\n\n'), 
 															makeCitation()
 																+ ' from <a target="_blank" href="' 
 																+ link('embed', true)

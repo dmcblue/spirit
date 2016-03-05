@@ -49,14 +49,20 @@ var spirit = spirit || (function(){
 			return '<script type="text/javascript" src="'+url+'js/spirit.embed.js" data-quote="'+ btoa(query('embed'))+'"></script>';
 		};
 	var makeText =
-		function(){
+		function(nl, isNumbered){
+			nl = nl || '\n';
+			isNumbered = isNumbered || false;
 			var quotetext = [];
 			for(var i = 0, ilen = quote.verses.length; i < ilen; i++){
 				var needsEllipse = !(i === 0 || ((quote.verses[i] - quote.verses[i - 1]) < 2));
 				if(needsEllipse){
 					quotetext.push('...');
 				}
-				quotetext.push(quote.texts[quote.verses[i]]);
+				
+				quotetext.push(
+					(isNumbered ? '['+citation.verses[quote.verses[i]]+']' : '')
+					+ quote.texts[quote.verses[i]]
+				);
 			}
 			return quotetext.join('\n');
 		};
@@ -188,7 +194,7 @@ var spirit = spirit || (function(){
 											FB.ui({
 												method: 'share',
 												href: link('embed', true),
-												caption : replaceAll(makeText() + '\n - ' + makeCitation(), '\n','\r')
+												caption : makeText(' ', true) + ' - ' + makeCitation()
 											}, function(response){});
 										})
 								)

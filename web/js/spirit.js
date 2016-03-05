@@ -157,6 +157,9 @@ var spirit = spirit || (function(){
 								.append(
 									jQuery('<textarea>')
 										.attr('type','text')
+										.attr('rows','10')
+										.attr('cols','20')
+										.css('resize', 'none')
 										.val(makeText() + '\n - ' + makeCitation())
 										.focus(clickFocus)
 								)
@@ -168,6 +171,19 @@ var spirit = spirit || (function(){
 										.attr('type','text')
 										.val(link('quote', true))
 										.focus(clickFocus)
+								)
+								.append(
+									jQuery('<label>').text('Facebook:')
+								)
+								.append(
+									jQuery('<span>')
+										.text('Facebook')
+										.click(function(){
+											FB.ui({
+												method: 'share',
+												href: link('quote', true)
+											}, function(response){});
+										})
 								)
 							)
 					);
@@ -244,7 +260,7 @@ var spirit = spirit || (function(){
 				console.log(link('quote'));
 				console.log(link('embed', true));
 
-				jQuery('#open').children('a').attr('href',link('quote', true))
+				jQuery('#open').children('a').attr('href',link('quote', true));
 			},
 		initMenu :
 			function(){

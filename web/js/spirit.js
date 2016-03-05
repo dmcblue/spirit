@@ -188,7 +188,7 @@ var spirit = spirit || (function(){
 											FB.ui({
 												method: 'share',
 												href: link('embed', true),
-												caption : replaceAll(makeText() + '\n - ' + makeCitation(), '\n','<center></center>')
+												caption : replaceAll(makeText() + '\n - ' + makeCitation(), '\n','\r\n')
 											}, function(response){});
 										})
 								)

@@ -9,16 +9,23 @@
 		
 	}
 	
-	require('build_quote.php');
+	//require('build_quote.php');
+	$content = Tools::buildQuote($source, $section, $chapter_ids, $verse_ids, $isNumbered = false);
 ?><!DOCTYPE html><html class="embed">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title><?php echo $CONFIG->site_name.': '.$source->name; ?></title>
-		<meta property="og:title" content="<?php echo $source->name; ?>" />
+		<meta property="og:title" content="<?php echo $CONFIG->site_name.' - '.$content['citation']; ?>" />
 		<meta property="og:type" content="books.book" />
 		<meta property="og:url" content="<?php echo Tools::thisAddress(true, true); ?>" />
-		<meta property="og:description" content="<?php echo $text[0]; ?>" />
+		<meta property="og:description" content="<?php 
+			echo str_replace(
+				array('"', "\r\n","\n"), 
+				array("'", '',''), 
+				implode(' ', $content['text_numbered'])
+			); 
+			?>" />
 		<meta property="og:site_name" content="<?php echo $CONFIG->site_name; ?>" />
 		<meta property="og:locale" content="en_GB" />
 		<meta property="og:image" content="<?php echo Tools::thisAddress(true, false); ?>css/images/opengraph.jpg" />
@@ -37,7 +44,7 @@
 	<body class="center">
 		<div class="content">
 			<div class="quote">
-				<?php foreach($text as $line): ?>
+				<?php foreach($content['text'] as $line): ?>
 					<div <?php echo $line == ELLIPSE ? 'class="ellipse"' : ''; 
 						?>><?php echo $line; ?></div>
 				<?php endforeach; ?>
@@ -48,7 +55,7 @@
 				<div class="home_link">
 					<a target="_blank" href="index.php"><?php echo $CONFIG->site_name; ?></a>
 				</div>
-				<div class="citation"><?php echo $title; ?></div>
+				<div class="citation"><?php echo $content['title']; ?></div>
 			</div>
 		</div>
 		

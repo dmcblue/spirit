@@ -10,13 +10,13 @@
 		
 	}
 	
-	require('build_quote.php');
-	
+	//require('build_quote.php');
+	$content = Tools::buildQuote($source, $section, $chapter_ids, $verse_ids, $isNumbered = false);
 	
 ?>
-<?php if($title): ?><div class="page_header"><?php echo $title; ?></div><?php endif; ?>
+<?php if($content['title']): ?><div class="page_header"><?php echo $content['title']; ?></div><?php endif; ?>
 <div class="quote">
-	<?php foreach($text as $line): ?>
+	<?php foreach($content['text'] as $line): ?>
 		<div <?php echo $line == ELLIPSE ? 'class="ellipse"' : ''; 
 			?>><?php echo $line; ?></div>
 	<?php endforeach; ?>

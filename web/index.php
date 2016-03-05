@@ -118,6 +118,7 @@
 		<?php require_once('view/'.$page.'.php'); ?>
 		
 		<!-- End content -->
+		<input id="app_name" value="<?php echo $CONFIG->site_name; ?>" type="hidden" />
 		<input id="source_id" value="<?php echo $source->id; ?>" type="hidden" />
 		<input id="source_name" value="<?php echo $source->name; ?>" type="hidden" />
 		<input id="section_id" value="<?php echo $section_id; ?>" type="hidden" />

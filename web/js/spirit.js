@@ -3,12 +3,7 @@ var spirit = spirit || (function(){
 	
 	var init = false;
 	
-	//var source = 0;
-	//var section = 0;
-	//var chapter = 0;
-	//var chapters = [];
-	//var verses = [];
-	//var texts = {};
+	var app_name = '';
 	var quote = 
 		{
 			source : 0,
@@ -223,8 +218,11 @@ var spirit = spirit || (function(){
 													window.open(
 														makeTumblrLink(
 															link('embed', true), 
-															makeText(' ', true), 
+															makeText(), 
 															makeCitation()
+																+ ' from <a target="_blank" href="' 
+																+ link('embed', true)
+																+'">' + app_name + '</a>'
 														),
 														"",
 														"width=575, height=268"
@@ -330,6 +328,7 @@ var spirit = spirit || (function(){
 			function(){
 				if(init){return;}
 				init = true;
+				app_name = jQuery('#app_name').val();
 				quote.source = parseInt(jQuery('#source_id').val());
 				citation.source = jQuery('#source_name').val();
 				quote.section = parseInt(jQuery('#section_id').val());

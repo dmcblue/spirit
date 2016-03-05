@@ -176,12 +176,14 @@ var spirit = spirit || (function(){
 									jQuery('<label>').text('Facebook:')
 								)
 								.append(
+									//https://developers.facebook.com/docs/sharing/web
 									jQuery('<span>')
 										.text('Facebook')
 										.click(function(){
 											FB.ui({
 												method: 'share',
-												href: link('quote', true)
+												href: link('embed', true),
+												caption : makeText() + '\n - ' + makeCitation()
 											}, function(response){});
 										})
 								)

@@ -117,6 +117,11 @@ var spirit = spirit || (function(){
 			}
 			return -1;
 		};
+	var replaceAll = 
+		//http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
+		function(string, search, replacement) {
+			return string.split(search).join(replacement);
+		};
 	var clickFocus =
 		//http://stackoverflow.com/a/5797700
 		function(){
@@ -183,7 +188,7 @@ var spirit = spirit || (function(){
 											FB.ui({
 												method: 'share',
 												href: link('embed', true),
-												caption : makeText() + '\n - ' + makeCitation()
+												caption : replaceAll(makeText() + '\n - ' + makeCitation(), '\n','<center></center>')
 											}, function(response){});
 										})
 								)

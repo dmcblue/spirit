@@ -108,7 +108,16 @@
 			<?php echo $title; ?>
 		</div>
 		<div id="toolbox" style="display:none;">
-			<div id="embed" class="toolbox_button" title="Get embed code">&lt;/&gt;</div>
+			<div id="embed" class="toolbox_button" title="Get embed code">
+				<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+					<circle cx="17.5" cy="50" r="17.5"/>
+					<circle cx="82.5" cy="82.5" r="17.5"/>
+					<circle cx="82.5" cy="17.5" r="17.5"/>
+					<rect x="14.6" y="31.6" transform="matrix(0.8949 -0.4462 0.4462 0.8949 -9.6513 25.9896)" width="71.6" height="3.8"/>
+					<rect x="14.2" y="64.6" transform="matrix(0.8949 0.4462 -0.4462 0.8949 34.9203 -15.3242)" width="71.6" height="3.8"/>
+				</svg>
+			</div>
 			<div id="open" class="toolbox_button" title="Open in new tab">
 				<a target="_blank"><svg data-name="open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="95 95 5 95 5 5 50 5 50 0 0 0 0 100 100 100 100 50 95 50 95 95" /><polygon points="70 0 100 30 100 0 70 0"/><rect x="22.5" y="35" width="75" height="10" transform="translate(-10.71 54.14) rotate(-45)"/></svg></a>
 			</div>

@@ -136,22 +136,37 @@ var spirit = spirit || (function(){
 				return false;
 			});
 		};
-		var makeTumblrLink =
-			function(url, text, citation){
-				var params = [];
-				params.push({name : 'shareSource', value : 'legacy'});
-				params.push({name : 'posttype', value : 'quote'});
-				params.push({name : 'url', value : url});
-				params.push({name : 'content', value : text});
-				params.push({name : 'caption', value : citation});
-				var nparams = [];
-				for(var i = 0, ilen = params.length; i < ilen; i++){
-					var param = params[i];
-					nparams.push(param.name + '=' + encodeURIComponent(param.value));
-				}
-				
-				return 'https://www.tumblr.com/widgets/share/tool?' + nparams.join('&');
-			};
+	var makeUrl =
+		function(base, params){
+			var nparams = [];
+			for(var i = 0, ilen = params.length; i < ilen; i++){
+				var param = params[i];
+				nparams.push(param.name + '=' + encodeURIComponent(param.value));
+			}
+			return base + '?' + nparams.join('&');
+		};
+	var makeTumblrLink =
+		function(url, text, citation){
+			var params = [];
+			params.push({name : 'shareSource', value : 'legacy'});
+			params.push({name : 'posttype', value : 'quote'});
+			params.push({name : 'url', value : url});
+			params.push({name : 'content', value : text});
+			params.push({name : 'caption', value : citation});
+			
+			return makeUrl('https://www.tumblr.com/widgets/share/tool', params);
+		};
+	var makeTwitterLink =
+		function(referer, text, url){
+			var params = [];
+			params.push({name : 'original_referer', value : referer});
+			params.push({name : 'ref_src', value : 'twsrc^tfw'});
+			params.push({name : 'text', value : '"' + text.substring(0, 110) + '"'});
+			params.push({name : 'tw_p', value : 'tweetbutton'});
+			params.push({name : 'url', value : url});
+			
+			return makeUrl('https://twitter.com/intent/tweet', params);
+		};
 	return {
 		CLASS_SELECTED : CLASS_SELECTED,
 		
@@ -223,6 +238,23 @@ var spirit = spirit || (function(){
 																+ ' from <a target="_blank" href="' 
 																+ link('embed', true)
 																+'">' + app_name + '</a>'
+														),
+														"",
+														"width=575, height=268"
+													);
+												})
+										)
+										.append(
+											//https://developers.facebook.com/docs/sharing/web
+											jQuery('<span>')
+												.addClass('social')
+												.addClass('twitter')
+												.click(function(){
+													window.open(
+														makeTwitterLink(
+															link('embed', true), 
+															makeText() + ' - ' + makeCitation(), 
+															link('embed', true)
 														),
 														"",
 														"width=575, height=268"

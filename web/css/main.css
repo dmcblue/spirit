@@ -329,6 +329,9 @@ table, .quote{
 .social.tumblr{
 	background-image:url('images/socialMedia/tumblr_logo_blue-white-512.png');
 }
+.social.twitter{
+	background-image:url('images/socialMedia/twitter_512.png');
+}
 /* jQuery UI */
 body .ui-dialog{
 	background:#B5C4CF;

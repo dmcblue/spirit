@@ -9,7 +9,7 @@
 			new SourceModel(
 				array(
 					'name' => 'The Hidden Words', 
-					'description' => "&&ldquo;A work consisting of short passages revealed by Bahá’u’lláh in Persian and Arabic in 1857/58 during His exile in Baghdad, translated by Shoghi Effendi.&rdquo;<br/><br/>Copyright © Bahá''í International Community", 
+					'description' => "&ldquo;A work consisting of short passages revealed by Bahá’u’lláh in Persian and Arabic in 1857/58 during His exile in Baghdad, translated by Shoghi Effendi.&rdquo;<br/><br/>Copyright © Bahá'í International Community", 
 					'version' => 'Official Translation', 
 					'display' => '{"page":{"section":true,"chapter":false,"verse":false}}', 
 					'link' => 'http://www.bahai.org/library/authoritative-texts/bahaullah/hidden-words/'
